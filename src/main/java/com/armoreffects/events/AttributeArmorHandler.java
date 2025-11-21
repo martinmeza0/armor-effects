@@ -63,7 +63,11 @@ public class AttributeArmorHandler {
                 ((ArmorEffectType.AttributeArmorEffect) effect).getEffectIdString() : 
                 effect.getEffectId().getPath();
             UUID modifierUUID = generateUUIDForItem(stack, slot, effectIdStr);
-            entity.getAttribute(attribute).removeModifier(modifierUUID);
+            
+            // Only remove if the modifier exists
+            if (entity.getAttribute(attribute).getModifier(modifierUUID) != null) {
+                entity.getAttribute(attribute).removeModifier(modifierUUID);
+            }
         }
     }
     
@@ -83,14 +87,17 @@ public class AttributeArmorHandler {
                 UUID modifierUUID = generateUUIDForItem(stack, slot, effectIdStr);
                 String name = getAttributeModifierName(stack, slot, effect);
                 
-                AttributeModifier modifier = new AttributeModifier(
-                    modifierUUID,
-                    name,
-                    value,
-                    getOperationForEffect(effect)
-                );
-                
-                entity.getAttribute(attribute).addPermanentModifier(modifier);
+                // Check if modifier already exists to prevent duplicates
+                if (entity.getAttribute(attribute).getModifier(modifierUUID) == null) {
+                    AttributeModifier modifier = new AttributeModifier(
+                        modifierUUID,
+                        name,
+                        value,
+                        getOperationForEffect(effect)
+                    );
+                    
+                    entity.getAttribute(attribute).addPermanentModifier(modifier);
+                }
             }
         }
     }
