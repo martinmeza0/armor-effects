@@ -33,7 +33,8 @@ boots_percentage = 12       # Boots effects are 12%
 Add effects to specific armor pieces using this format:
 
 ```
-"namespace:item_name+category:effect_id@level"
+"namespace:item_name+category:effect_id"
+"namespace:item_name+category:effect_id@level"  (for potions and enchantments)
 ```
 
 #### Categories
@@ -48,24 +49,24 @@ Add effects to specific armor pieces using this format:
 ```toml
 items = [
     # Speed Effects (Attribute)
-    "minecraft:golden_helmet+attribute:speed@2",
-    "minecraft:golden_chestplate+attribute:speed@2",
-    "minecraft:golden_leggings+attribute:speed@2",
-    "minecraft:golden_boots+attribute:speed@2",
+    "minecraft:golden_helmet+attribute:speed",
+    "minecraft:golden_chestplate+attribute:speed",
+    "minecraft:golden_leggings+attribute:speed",
+    "minecraft:golden_boots+attribute:speed",
     
     # Damage Reduction
-    "minecraft:leather_boots+damage:fall_protection@12",
-    "minecraft:iron_helmet+damage:projectile_protection@12",
-    "minecraft:diamond_chestplate+damage:blast_protection@12",
-    "minecraft:netherite_helmet+damage:fire_protection@12",
+    "minecraft:leather_boots+damage:fall_protection",
+    "minecraft:iron_helmet+damage:projectile_protection",
+    "minecraft:diamond_chestplate+damage:blast_protection",
+    "minecraft:netherite_helmet+damage:fire_protection",
     
-    # Potion Effects
-    "minecraft:diamond_helmet+potion:minecraft:night_vision@1",
-    "minecraft:iron_chestplate+potion:minecraft:regeneration@1",
+    # Potion Effects (with levels)
+    "minecraft:diamond_helmet+potion:minecraft:night_vision",      # Night Vision I (default)
+    "minecraft:iron_chestplate+potion:minecraft:regeneration@2",   # Regeneration II
     
     # Other Attributes
-    "minecraft:netherite_chestplate+attribute:attack_damage@5",
-    "minecraft:diamond_leggings+attribute:max_health@10"
+    "minecraft:netherite_chestplate+attribute:attack_damage",
+    "minecraft:diamond_leggings+attribute:max_health"
 ]
 ```
 
@@ -113,6 +114,20 @@ Hover over armor pieces to see their effects:
 - **Damage reduction**: Green text (e.g., "+18% Fire Damage Reduction")
 - **Potion effects**: Blue text (e.g., "Night Vision")
 - **Enchantments**: Aqua text
+
+### Important: Attribute vs Potion Effects
+
+Some effects can be achieved in multiple ways. Here's when to use each:
+
+#### Speed Effects
+- **`attribute:speed`** - Permanent speed boost, no visual effects, best performance
+- **`potion:minecraft:speed@2`** - Speed II potion with particles, refreshed every 2 seconds
+
+#### Other Overlapping Effects  
+- **`attribute:max_health`** - Permanent health boost
+- **`potion:minecraft:health_boost@2`** - Health Boost II potion effect
+
+**Recommendation**: Use **attribute** effects for permanent stat boosts (speed, health, damage) since they're more efficient and don't show potion particles.
 
 ### Performance Notes
 - **Attribute effects** use permanent AttributeModifiers (best performance)

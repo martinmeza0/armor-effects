@@ -38,19 +38,27 @@ public abstract class ArmorEffectType {
     public abstract void applyEffect(ArmorEffectContext context);
     
     public static ArmorEffectType parse(String configString) {
-        // Format: "category:effect_id@level"
+        // Format: "category:effect_id" or "category:effect_id@level"
         // Examples: 
-        // "potion:minecraft:regeneration@2"
-        // "damage:fire_protection@15"
-        // "enchant:minecraft:fire_protection@3"
+        // "potion:minecraft:regeneration@2" - Regeneration II
+        // "potion:minecraft:speed" - Speed I (default)
+        // "enchant:minecraft:fire_protection@4" - Fire Protection IV
+        // "damage:fire_protection" - No level needed
+        // "attribute:speed" - No level needed
         
+        // Check if there's a level specified
         String[] parts = configString.split("@");
-        if (parts.length != 2) {
+        int level = 1; // Default level
+        String effectPart = configString;
+        
+        if (parts.length == 2) {
+            level = Integer.parseInt(parts[1]);
+            effectPart = parts[0];
+        } else if (parts.length > 2) {
             throw new IllegalArgumentException("Invalid effect format: " + configString);
         }
         
-        int level = Integer.parseInt(parts[1]);
-        String[] categoryAndEffect = parts[0].split(":", 2);
+        String[] categoryAndEffect = effectPart.split(":", 2);
         
         if (categoryAndEffect.length != 2) {
             throw new IllegalArgumentException("Invalid effect format: " + configString);

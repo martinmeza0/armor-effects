@@ -95,14 +95,15 @@ public class ArmorEffectsConfig {
         BUILDER.pop();
         
         BUILDER.comment("Item-Specific Effects")
-               .comment("Format: \"namespace:item_name+category:effect_id@level\"")
+               .comment("Format: \"namespace:item_name+category:effect_id\" or \"namespace:item_name+category:effect_id@level\"")
                .comment("Categories: potion, damage, enchant, attribute")
                .comment("Examples:")
-               .comment("  \"minecraft:diamond_chestplate+potion:minecraft:regeneration@2\"")
-               .comment("  \"minecraft:leather_boots+damage:fall_protection@15\"")
-               .comment("  \"minecraft:iron_helmet+potion:minecraft:night_vision@1\"")
-               .comment("  \"minecraft:golden_chestplate+attribute:speed@2\"")
-               .comment("  \"minecraft:netherite_boots+attribute:attack_damage@3\"")
+               .comment("  \"minecraft:diamond_chestplate+potion:minecraft:regeneration@2\" - Regeneration II")
+               .comment("  \"minecraft:leather_boots+damage:fall_protection\" - Uses slot percentage")
+               .comment("  \"minecraft:iron_helmet+potion:minecraft:night_vision\" - Night Vision I (default)")
+               .comment("  \"minecraft:golden_chestplate+attribute:speed\" - Uses slot percentage")
+               .comment("  \"minecraft:netherite_boots+enchant:minecraft:fire_protection@4\" - Fire Protection IV")
+               .comment("Note: @level only affects potion and enchantment categories")
                .comment("Available attributes: speed, attack_damage, attack_speed, armor, armor_toughness, knockback_resistance, max_health")
                .push("item_effects");
         
@@ -114,34 +115,39 @@ public class ArmorEffectsConfig {
                 .defineList("items", 
                     List.of(
                         // Leather Armor - Feather Falling (Fall Damage Reduction)
-                        "minecraft:leather_helmet+damage:fall_protection@12",
-                        "minecraft:leather_chestplate+damage:fall_protection@18", 
-                        "minecraft:leather_leggings+damage:fall_protection@15",
-                        "minecraft:leather_boots+damage:fall_protection@12",
+                        "minecraft:leather_helmet+damage:fall_protection",
+                        "minecraft:leather_chestplate+damage:fall_protection", 
+                        "minecraft:leather_leggings+damage:fall_protection",
+                        "minecraft:leather_boots+damage:fall_protection",
                         
                         // Iron Armor - Projectile Protection  
-                        "minecraft:iron_helmet+damage:projectile_protection@12",
-                        "minecraft:iron_chestplate+damage:projectile_protection@18",
-                        "minecraft:iron_leggings+damage:projectile_protection@15", 
-                        "minecraft:iron_boots+damage:projectile_protection@12",
+                        "minecraft:iron_helmet+damage:projectile_protection",
+                        "minecraft:iron_chestplate+damage:projectile_protection",
+                        "minecraft:iron_leggings+damage:projectile_protection", 
+                        "minecraft:iron_boots+damage:projectile_protection",
                         
                         // Golden Armor - Speed effects using AttributeModifiers (better performance than potion effects)
-                        "minecraft:golden_helmet+attribute:speed@2",
-                        "minecraft:golden_chestplate+attribute:speed@2", 
-                        "minecraft:golden_leggings+attribute:speed@2",
-                        "minecraft:golden_boots+attribute:speed@2",
+                        "minecraft:golden_helmet+attribute:speed",
+                        "minecraft:golden_chestplate+attribute:speed", 
+                        "minecraft:golden_leggings+attribute:speed",
+                        "minecraft:golden_boots+attribute:speed",
                         
                         // Diamond Armor - Blast Protection
-                        "minecraft:diamond_helmet+damage:blast_protection@12",
-                        "minecraft:diamond_chestplate+damage:blast_protection@18",
-                        "minecraft:diamond_leggings+damage:blast_protection@15",
-                        "minecraft:diamond_boots+damage:blast_protection@12",
+                        "minecraft:diamond_helmet+damage:blast_protection",
+                        "minecraft:diamond_chestplate+damage:blast_protection",
+                        "minecraft:diamond_leggings+damage:blast_protection",
+                        "minecraft:diamond_boots+damage:blast_protection",
                         
                         // Netherite Armor - Fire Protection
-                        "minecraft:netherite_helmet+damage:fire_protection@12",
-                        "minecraft:netherite_chestplate+damage:fire_protection@18",
-                        "minecraft:netherite_leggings+damage:fire_protection@15",
-                        "minecraft:netherite_boots+damage:fire_protection@12"
+                        "minecraft:netherite_helmet+damage:fire_protection",
+                        "minecraft:netherite_chestplate+damage:fire_protection",
+                        "minecraft:netherite_leggings+damage:fire_protection",
+                        "minecraft:netherite_boots+damage:fire_protection"
+                        
+                        // Example potion effects with levels (commented out by default)
+                        // "minecraft:diamond_helmet+potion:minecraft:night_vision@1",     // Night Vision I  
+                        // "minecraft:diamond_chestplate+potion:minecraft:regeneration@2", // Regeneration II
+                        // "minecraft:iron_boots+potion:minecraft:speed@3"                 // Speed III
                     ),
                     entry -> entry instanceof String
                 );
