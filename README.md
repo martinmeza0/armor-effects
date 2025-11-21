@@ -207,11 +207,19 @@ When you wear the full set:
 
 ### Step 4: Understanding the @Level Number
 
-**Important**: The `@level` number in the config does NOT affect the final effect strength. It's ignored in the current system. Only the slot percentage matters.
+**Important**: The `@level` number works differently depending on the effect category:
+
+- **Potions & Enchantments**: Level matters (Speed I vs Speed II, Fire Protection I vs IV)
+- **Attributes & Damage**: Level is ignored, uses slot percentage
 
 ```toml
-"minecraft:diamond_helmet+attribute:speed@1"     # = 10% speed (helmet %)
-"minecraft:diamond_helmet+attribute:speed@999"   # = 10% speed (same!)
+# For potions - level matters
+"minecraft:diamond_helmet+potion:minecraft:speed@1"     # Speed I
+"minecraft:diamond_helmet+potion:minecraft:speed@3"     # Speed III
+
+# For attributes - level ignored, uses slot percentage  
+"minecraft:diamond_helmet+attribute:speed@1"            # 10% speed (helmet %)
+"minecraft:diamond_helmet+attribute:speed@999"          # 10% speed (same!)
 ```
 
 ### Step 5: Mixing Effect Types
