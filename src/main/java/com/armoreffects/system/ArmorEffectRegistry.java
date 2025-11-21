@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
@@ -33,6 +34,11 @@ public class ArmorEffectRegistry {
     
     public static void loadFromConfig(List<String> configEntries) {
         clear();
+        
+        if (configEntries == null) {
+            LOGGER.warn("Config entries list is null, no effects loaded");
+            return;
+        }
         
         for (String entry : configEntries) {
             try {
@@ -64,7 +70,7 @@ public class ArmorEffectRegistry {
         }
         
         Item item = BuiltInRegistries.ITEM.get(itemLocation);
-        if (item == null || item == BuiltInRegistries.ITEM.getDefaultValue()) {
+        if (item == null || item == Items.AIR) {
             LOGGER.warn("Unknown item: {}, skipping", itemStr);
             return;
         }

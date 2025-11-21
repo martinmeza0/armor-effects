@@ -96,11 +96,14 @@ public class ArmorEffectsConfig {
         
         BUILDER.comment("Item-Specific Effects")
                .comment("Format: \"namespace:item_name+category:effect_id@level\"")
-               .comment("Categories: potion, damage, enchant")
+               .comment("Categories: potion, damage, enchant, attribute")
                .comment("Examples:")
                .comment("  \"minecraft:diamond_chestplate+potion:minecraft:regeneration@2\"")
                .comment("  \"minecraft:leather_boots+damage:fall_protection@15\"")
                .comment("  \"minecraft:iron_helmet+potion:minecraft:night_vision@1\"")
+               .comment("  \"minecraft:golden_chestplate+attribute:speed@2\"")
+               .comment("  \"minecraft:netherite_boots+attribute:attack_damage@3\"")
+               .comment("Available attributes: speed, attack_damage, attack_speed, armor, armor_toughness, knockback_resistance, max_health")
                .push("item_effects");
         
         ITEM_EFFECTS = BUILDER
@@ -122,11 +125,11 @@ public class ArmorEffectsConfig {
                         "minecraft:iron_leggings+damage:projectile_protection@15", 
                         "minecraft:iron_boots+damage:projectile_protection@12",
                         
-                        // Golden Armor - Speed Effect
-                        "minecraft:golden_helmet+potion:minecraft:speed@1",
-                        "minecraft:golden_chestplate+potion:minecraft:speed@2",
-                        "minecraft:golden_leggings+potion:minecraft:speed@1",
-                        "minecraft:golden_boots+potion:minecraft:speed@1",
+                        // Golden Armor - Speed effects using AttributeModifiers (better performance than potion effects)
+                        "minecraft:golden_helmet+attribute:speed@2",
+                        "minecraft:golden_chestplate+attribute:speed@2", 
+                        "minecraft:golden_leggings+attribute:speed@2",
+                        "minecraft:golden_boots+attribute:speed@2",
                         
                         // Diamond Armor - Blast Protection
                         "minecraft:diamond_helmet+damage:blast_protection@12",

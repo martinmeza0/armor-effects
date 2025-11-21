@@ -9,7 +9,8 @@ public abstract class ArmorEffectType {
     public enum Category {
         POTION,
         DAMAGE_REDUCTION,
-        ENCHANTMENT
+        ENCHANTMENT,
+        ATTRIBUTE
     }
     
     protected final Category category;
@@ -62,19 +63,21 @@ public abstract class ArmorEffectType {
             case "potion" -> Category.POTION;
             case "damage" -> Category.DAMAGE_REDUCTION;
             case "enchant" -> Category.ENCHANTMENT;
+            case "attribute", "attr" -> Category.ATTRIBUTE;
             default -> throw new IllegalArgumentException("Unknown category: " + categoryStr);
         };
         
         ResourceLocation effectId = ResourceLocation.tryParse(effectStr);
         if (effectId == null) {
             // Handle simple names like "fire_protection" -> "armoreffects:fire_protection"
-            effectId = new ResourceLocation("armoreffects", effectStr);
+            effectId = ResourceLocation.fromNamespaceAndPath("armoreffects", effectStr);
         }
         
         return switch (category) {
             case POTION -> new PotionArmorEffect(effectId, level);
             case DAMAGE_REDUCTION -> new DamageReductionArmorEffect(effectId, level);
             case ENCHANTMENT -> new EnchantmentArmorEffect(effectId, level);
+            case ATTRIBUTE -> new AttributeArmorEffect(effectId, level);
         };
     }
     
@@ -124,7 +127,7 @@ public abstract class ArmorEffectType {
                     damageSource.is(net.minecraft.world.damagesource.DamageTypes.ARROW) ||
                     damageSource.is(net.minecraft.world.damagesource.DamageTypes.TRIDENT) ||
                     (damageSource.getDirectEntity() != null && 
-                     damageSource.getDirectEntity().getType().getCategory().isMisc());
+                     damageSource.getDirectEntity().getType().getCategory() == net.minecraft.world.entity.MobCategory.MISC);
                      
                 case "blast_protection" ->
                     damageSource.is(net.minecraft.world.damagesource.DamageTypes.EXPLOSION) ||
@@ -155,6 +158,27 @@ public abstract class ArmorEffectType {
         public void applyEffect(ArmorEffectContext context) {
             // Future implementation for enchantment effects
             // This could add temporary enchantments or modify enchantment levels
+        }
+    }
+    
+    public static class AttributeArmorEffect extends ArmorEffectType {
+        
+        public AttributeArmorEffect(ResourceLocation effectId, int level) {
+            super(Category.ATTRIBUTE, effectId, level);
+        }
+        
+        @Override
+        public void applyEffect(ArmorEffectContext context) {
+            // Attribute effects are handled by AttributeArmorHandler
+            // This method is not used for attribute effects as they use 
+            // permanent AttributeModifiers instead of tick-based application
+        }
+        
+        /**
+         * Get the effect ID as a string for attribute matching
+         */
+        public String getEffectIdString() {
+            return effectId.getPath();
         }
     }
 }
